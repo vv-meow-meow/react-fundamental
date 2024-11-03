@@ -1,4 +1,5 @@
 import React from 'react';
+import MyButton from './UI/button/MyButton';
 
 // Use JetBrains "rsc" shortcut template to create components fast.
 const PostItem = (props) => {
@@ -10,7 +11,7 @@ const PostItem = (props) => {
       </div>
     </div>
     <div className="post__btns">
-      <button>Удалить</button>
+      <MyButton onClick={() => props.remove(props.post)}>Удалить</MyButton>
     </div>
   </div>);
 };
