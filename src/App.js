@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import './styles/App.css';
 import PostList from './components/PostList';
 import PostForm from './components/PostForm';
 import MySelect from './components/UI/select/MySelect';
+import MyInput from './components/UI/input/MyInput';
 
 function App() {
   const [posts, setPosts] = useState([
@@ -12,6 +13,22 @@ function App() {
     {id: 4, title: 'CSS', body: 'zzzz'}]);
 
   const [selectedSort, setSelectedSort] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const sortedPosts = useMemo(() => {
+    console.log('sortedPosts call');
+    if (selectedSort) {
+      return [...posts].sort(
+          (a, b) => a[selectedSort].localeCompare(b[selectedSort]));
+    }
+    return posts;
+  }, [selectedSort, posts]);
+
+  const sortedAndSearchedPosts = useMemo(() => {
+    return sortedPosts.filter(
+        post => post.title.toLowerCase().includes(searchQuery));
+  }, [searchQuery, sortedPosts]);
+
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
   };
@@ -22,14 +39,17 @@ function App() {
 
   const sortPosts = (sort) => {
     setSelectedSort(sort);
-    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])));
-    console.log(sort);
   };
 
   return (<div className="App">
     <PostForm create={createPost}/>
     <hr style={{margin: '15px 0'}}/>
     <div>
+      <MyInput
+          value={searchQuery}
+          placeholder="Search"
+          onChange={e => setSearchQuery(e.target.value)}
+      />
       <MySelect
           value={selectedSort}
           onChange={sortPosts}
@@ -39,9 +59,9 @@ function App() {
             {value: 'body', name: 'By Description'}]}
       />
     </div>
-    {posts.length ? <PostList
+    {sortedAndSearchedPosts.length ? <PostList
         remove={removePost}
-        posts={posts}
+        posts={sortedAndSearchedPosts}
         title="Posts about JS"/> : <h1 style={{textAlign: 'center'}}>
       Posts not found
     </h1>}
