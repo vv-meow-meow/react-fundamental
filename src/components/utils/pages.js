@@ -2,7 +2,7 @@ export const getPageCount = (totalCount, limit) => {
   return Math.ceil(totalCount / limit);
 };
 
-export const getPagesArray = (totalPages, pages) => {
+export const getPagesArray = (totalPages) => {
   // Homework: implement useMemo to not count this array every time
   // 2:00:30 && 2:00:55
   let result = [];
