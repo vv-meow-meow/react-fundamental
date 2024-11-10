@@ -8,7 +8,7 @@ import {usePosts} from '../hooks/usePosts';
 import PostService from '../API/PostService';
 import Loader from '../components/UI/Loader/Loader';
 import {useFetching} from '../hooks/useFetching';
-import {getPageCount, getPagesArray} from '../components/utils/pages';
+import {getPageCount} from '../components/utils/pages';
 import Pagination from '../components/UI/pagination/Pagination';
 
 function Posts() {
